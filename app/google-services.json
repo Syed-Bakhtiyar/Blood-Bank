@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "810131843084",
+    "firebase_url": "https://twitter-95db0.firebaseio.com",
+    "project_id": "twitter-95db0",
+    "storage_bucket": "twitter-95db0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:810131843084:android:da8498e938d82bea",
+        "android_client_info": {
+          "package_name": "com.example.bakhtiyar.twitter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "810131843084-8er3f9ga2ph018icaesjduh2roajoq4l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqzOGyUaqvjvM113-J14sLJ9ft6XJlxJA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
