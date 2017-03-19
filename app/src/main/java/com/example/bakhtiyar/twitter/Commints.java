@@ -1,5 +1,6 @@
 package com.example.bakhtiyar.twitter;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -7,7 +8,10 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -28,22 +32,128 @@ public class Commints extends AppCompatActivity {
 
     ArrayList<MyCommints> arrayList;
 
+    ArrayList<LikesClass> likesarraylist = null;
+
     ListView listView;
 
     MyCommints myCommints;
+
+    private int chk = 0;
+
+    private TextView info,name,unit,hospitalrelation,urgent,phone;
+
+    TextView likes;
+
+    private ImageButton imageButton;
+    private LikesClass likesClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commints);
 
+        imageButton = (ImageButton) findViewById(R.id.star);
         arrayList = new ArrayList<>();
+
+
 
         commintListAdapter = new CommintListAdapter(arrayList,this);
 
         listView = (ListView) findViewById(R.id.messageListView);
 
         listView.setAdapter(commintListAdapter);
+
+     //   likesarraylist = new ArrayList<>();
+
+        likes = (TextView) findViewById(R.id.tlike);
+
+
+
+        func();
+
+
+
+
+
+        name = (TextView) findViewById(R.id.name);
+
+        unit = (TextView) findViewById(R.id.units);
+
+        hospitalrelation = (TextView) findViewById(R.id.hospitalrelation);
+
+        urgent = (TextView) findViewById(R.id.urgent);
+
+        phone = (TextView) findViewById(R.id.phone);
+
+        info = (TextView) findViewById(R.id.instruction);
+
+        name.setText(StaticVariables.arrayList.getName());
+
+        unit.setText(StaticVariables.arrayList.getBlood() +" is required");
+
+        hospitalrelation.setText("At "+StaticVariables.arrayList.getHospital()+" for my "+StaticVariables.arrayList.getRelation());
+
+        urgent.setText(StaticVariables.arrayList.getUrgency());
+
+        phone.setText("Contact at: "+StaticVariables.arrayList.getContact());
+
+        info.setText(StaticVariables.arrayList.getInfo());
+
+        findViewById(R.id.cardv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(Commints.this,ForWhoLikes.class));
+
+            }
+        });
+
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if(chk == 1){
+
+                    FirebaseDatabase.getInstance().getReference().child("Likes").child(StaticVariables.arrayList.getPush()).child(StaticVariables.uid).removeValue();
+
+                    imageButton.setImageResource(R.drawable.blankstar);
+
+//                    textView.setText((likesClassArrayList.size()-1)+"");
+//
+//                    for (int i =0;i<likesClassArrayList.size();i++){
+//
+//                        if (StaticVariables.uuid.equals(likesClassArrayList.get(i).getUid())){
+//
+//                            arrayList.remove(i);
+//
+//                            break;
+//
+//                        }
+//
+//
+//                    }
+
+
+                    chk=0;
+
+                }
+                else {
+
+                    likesClass = new LikesClass(StaticVariables.userInfo.getName(), StaticVariables.uid, StaticVariables.arrayList.getPush());
+
+                    FirebaseDatabase.getInstance().getReference().child("Likes").child(likesClass.getComid()).child(likesClass.getUid()).setValue(likesClass);
+
+                    chk=1;
+                }
+
+                Toast.makeText(Commints.this, ""+"Star", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
 
         FirebaseDatabase.getInstance().getReference().child("Commints").child(StaticVariables.push).child("UserCommints").addChildEventListener(new ChildEventListener() {
             @Override
@@ -116,6 +226,7 @@ public class Commints extends AppCompatActivity {
 
                 FirebaseDatabase.getInstance().getReference().child("Commints").child(StaticVariables.push).child("UserCommints").push().setValue(com);
 
+                editText.setText("");
 
 
 
@@ -124,4 +235,51 @@ public class Commints extends AppCompatActivity {
 
 
     }
+
+
+    public void func(){
+
+
+        FirebaseDatabase.getInstance().getReference().child("Likes").child(StaticVariables.arrayList.getPush()).child(StaticVariables.uid).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+
+
+                if (dataSnapshot != null){
+                    imageButton.setImageResource(R.drawable.yellowstar);
+
+                    chk = 1;
+
+
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
+
+
 }

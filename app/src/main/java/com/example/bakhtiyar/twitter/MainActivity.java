@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,13 +29,15 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
 
+    FirebaseAuth.AuthStateListener firAuthStateListener;
+
 
     String email, password;
 
 
     EditText txt_email, txt_password;
 
-    SignInButton login;
+    Button login;
 
     ProgressDialog progressDialog;
 
@@ -49,8 +54,17 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+        if(firebaseAuth.getCurrentUser() != null){
+            Toast.makeText(MainActivity.this, "SignIn", Toast.LENGTH_SHORT).show();
 
-        login = (SignInButton) findViewById(R.id.login);
+            StaticVariables.uid = firebaseAuth.getCurrentUser().getUid();
+            startActivity(new Intent(MainActivity.this,ProfileActivity.class));
+        }
+
+
+
+
+        login = (Button) findViewById(R.id.login);
 
         textView = (TextView) findViewById(R.id.link);
 
@@ -134,6 +148,84 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+
+//        firAuthStateListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//
+//                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+//
+//
+//
+//                if(firebaseUser != null){
+//                    Toast.makeText(MainActivity.this, "SignIn", Toast.LENGTH_SHORT).show();
+//
+//                    StaticVariables.uid = firebaseAuth.getCurrentUser().getUid();
+//                    startActivity(new Intent(MainActivity.this,Home.class));
+//                }
+//
+//            }
+//        };
+
+//        firAuthStateListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//
+//                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+//
+//                if(firebaseUser != null){
+//                    Toast.makeText(MainActivity.this, "SignIn", Toast.LENGTH_SHORT).show();
+//
+//                    onSignedInInitialize(firebaseUser.getDisplayName());
+//                }else {
+//                    onSignedOutCleanUp();
+//                    startActivityForResult(
+//                            AuthUI.getInstance()
+//                                    .createSignInIntentBuilder()
+//                                    .setIsSmartLockEnabled(false)
+//                                    .setProviders(
+//                                            AuthUI.EMAIL_PROVIDER,
+//                                            AuthUI.GOOGLE_PROVIDER,
+//                                            AuthUI.FACEBOOK_PROVIDER)
+//                                    .build(),
+//                            RC_SIGN_IN);
+//                    Toast.makeText(MainActivity.this, "Signout", Toast.LENGTH_SHORT).show();
+//
+//                }
+//
+//            }
+//        };
+
+
     }
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+      //  firebaseAuth.addAuthStateListener(firAuthStateListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(firebaseAuth.getCurrentUser() != null) {
+            firebaseAuth.removeAuthStateListener(firAuthStateListener);
+        }
+        //removeListner();
+//        arrayList.clear();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
 
 }

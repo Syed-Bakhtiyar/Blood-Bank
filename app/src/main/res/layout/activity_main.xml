@@ -3,11 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@drawable/aaa"
     tools:context="com.example.bakhtiyar.twitter.MainActivity">
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
-        android:background="#fff"
+
+        android:background="@drawable/aaa"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,16 +50,18 @@
                 android:hint="Password"
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
-        <com.google.android.gms.common.SignInButton
+        <Button
+
+            android:background="@drawable/aaa"
             android:padding="0dp"
             android:layout_margin="10dp"
-            android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/login"
+            android:text="Sign in"
             android:id="@+id/login"/>
+
         <TextView
             android:id="@+id/link"
             android:textColor="#000"
@@ -67,5 +72,5 @@
             android:text="Signup"/>
 
     </LinearLayout>
-
+</ScrollView>
 </ScrollView>

@@ -26,15 +26,13 @@ public class PostListAdapter extends BaseAdapter {
 
     ArrayList<PostVolunteer> arrayListTest;
 
-  ArrayList<UsersPost> arrayList;
+    ArrayList<UsersPost> arrayList;
 
     LayoutInflater inflater;
 
-    TextView name, unit, hospitalrelation,urgent,phone, info, volunteer;
+    TextView name, unit, hospitalrelation, urgent, phone, info, volunteer;
 
     Button voll;
-
-
 
 
     Context context;
@@ -64,8 +62,6 @@ public class PostListAdapter extends BaseAdapter {
 
 
         arrayListTest = new ArrayList<>();
-
-
 
 
         final int[] count = {0};
@@ -106,9 +102,7 @@ public class PostListAdapter extends BaseAdapter {
 
         final int[] volll = {arrayList.get(temp).getVolunteer()};
 
-        view = inflater.from(context).inflate(R.layout.view_post_list,viewGroup,false);
-
-
+        view = inflater.from(context).inflate(R.layout.view_post_list, viewGroup, false);
 
 
         name = (TextView) view.findViewById(R.id.name);
@@ -123,32 +117,27 @@ public class PostListAdapter extends BaseAdapter {
 
         info = (TextView) view.findViewById(R.id.instruction);
 
-      //  volunteer = (TextView) view.findViewById(R.id.volunteer);
+//          volunteer = (TextView) view.findViewById(R.id.volunteer);
 
         name.setText(arrayList.get(i).getName());
 
-        unit.setText(arrayList.get(i).getUnits()+" of "+arrayList.get(i).getBlood() +" is required");
+        unit.setText(arrayList.get(i).getUnits() + " of " + arrayList.get(i).getBlood() + " is required");
 
-        hospitalrelation.setText("At "+arrayList.get(i).getHospital()+" for my "+arrayList.get(i).getRelation());
+        hospitalrelation.setText("At " + arrayList.get(i).getHospital() + " for my " + arrayList.get(i).getRelation());
 
         urgent.setText(arrayList.get(i).getUrgency());
 
-        phone.setText("Contact at: "+arrayList.get(i).getContact());
+        phone.setText("Contact at: " + arrayList.get(i).getContact());
 
         info.setText(arrayList.get(i).getInfo());
 
-       // volunteer.setText("Volunteers uptill now: " +arrayList.get(i).getVolunteer());
+//        volunteer.setText("Volunteers uptill now: " + arrayList.get(i).getVolunteer());
 
 
         voll = (Button) view.findViewById(R.id.vol);
 
 
-
-
-
-        if(arrayList.get(i).getVolunteer() == 0){
-
-
+        if (arrayList.get(i).getVolunteer() == 0) {
 
 
         }
@@ -157,7 +146,7 @@ public class PostListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
 
-                PostVolunteer postVolunteer = new PostVolunteer(StaticVariables.userInfo.getName(),arrayList.get(temp).getPush());
+                PostVolunteer postVolunteer = new PostVolunteer(StaticVariables.userInfo.getName(), arrayList.get(temp).getPush());
 
 
                 FirebaseDatabase.getInstance().getReference().child("Volunteer").child(arrayList.get(temp).getPush()).child(StaticVariables.uid).setValue(postVolunteer);
@@ -172,10 +161,9 @@ public class PostListAdapter extends BaseAdapter {
 
                 StaticVariables.push = arrayList.get(temp).getPush();
 
+                StaticVariables.arrayList = arrayList.get(temp);
 
-                context.startActivity(new Intent(context.getApplicationContext(),Commints.class));
-
-
+                context.startActivity(new Intent(context.getApplicationContext(), Commints.class));
 
 
             }

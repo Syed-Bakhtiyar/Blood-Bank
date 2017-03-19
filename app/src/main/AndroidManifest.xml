@@ -20,7 +20,8 @@
         <activity android:name=".Home" />
         <activity android:name=".Commints" />
         <activity android:name=".MyPosts" />
-        <activity android:name=".MyPostVolunteers"></activity>
+        <activity android:name=".MyPostVolunteers" />
+        <activity android:name=".ForWhoLikes"></activity>
     </application>
 
 </manifest>

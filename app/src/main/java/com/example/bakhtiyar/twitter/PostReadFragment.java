@@ -100,7 +100,7 @@ public class PostReadFragment extends Fragment {
                 ForSeeVolunteer someFragment = new ForSeeVolunteer(arrayList.get(position).getPush());
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, someFragment ); // give your fragment container id in first parameter
-                transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+                transaction.addToBackStack("tag");  // if written, this transaction will be added to backstack
                 transaction.commit();
 
 

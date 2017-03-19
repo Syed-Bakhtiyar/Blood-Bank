@@ -1,9 +1,11 @@
 package com.example.bakhtiyar.twitter;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.database.FirebaseDatabase;
+
+import static com.google.android.gms.internal.zzt.TAG;
 
 
 /**
@@ -281,17 +285,29 @@ public class PostWriteFragment extends Fragment {
 
                 }
 
-                UsersPost usersPost = new UsersPost(StaticVariables.userInfo.getName(),StaticVariables.userInfo.getEmail()
-                ,StaticVariables.userInfo.getBloodgroup(),StaticVariables.uid, FirebaseDatabase.getInstance().getReference().child("Posting").push().getKey(),unit,blood,urgent,country,state,city,hospital,relation,phone,info,0);
+                try {
 
 
+                    UsersPost usersPost = new UsersPost(StaticVariables.userInfo.getName(), StaticVariables.userInfo.getEmail()
+                            , StaticVariables.userInfo.getBloodgroup(), StaticVariables.uid, FirebaseDatabase.getInstance().getReference().child("Posting").push().getKey(), unit, blood, urgent, country, state, city, hospital, relation, phone, info, 0);
 
-                FirebaseDatabase.getInstance().getReference().child("Posting").child(usersPost.getPush()).setValue(usersPost);
 
-                FirebaseDatabase.getInstance().getReference().child("MyPosting").child(StaticVariables.uid).child(usersPost.getPush()).setValue(usersPost);
+                    FirebaseDatabase.getInstance().getReference().child("Posting").child(usersPost.getPush()).setValue(usersPost);
 
-                Toast.makeText(getContext(), "Posted", Toast.LENGTH_SHORT).show();
+                    FirebaseDatabase.getInstance().getReference().child("MyPosting").child(StaticVariables.uid).child(usersPost.getPush()).setValue(usersPost);
 
+                    Toast.makeText(getContext(), "Posted", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = getActivity().getIntent();
+                    getActivity().finish();
+                    startActivity(intent);
+                }catch (Exception e){
+
+                    Log.d("myerror", "onClick: "+e);
+
+                    Toast.makeText(getContext(), "Sorry You Internet is not available", Toast.LENGTH_SHORT).show();
+
+                }
 
             }
         });
