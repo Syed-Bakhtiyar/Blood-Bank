@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.bakhtiyar.twitter.Notification.PushService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -54,6 +55,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         listView.setAdapter(forHomeListAdapter);
 
+        Intent t = new Intent(ProfileActivity.this,PushService.class);
+
+
+        startService(t);
 
 
         name= (TextView) findViewById(R.id.name);
